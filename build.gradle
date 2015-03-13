@@ -1,0 +1,66 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+version = '0.1'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('com.google.guava:guava:15.0')
+    compile(group: 'org.apache.cassandra', name: 'cassandra-all', version: cassandraVersion) {
+        exclude group: 'asm'
+        exclude group: 'org.apache.mina'
+        exclude group: 'com.google.guava'
+    }
+    compile('org.apache.kafka:kafka_2.10:0.8.2.0')
+    compile('org.scala-lang:scala-library:2.9.2')
+
+    testCompile group: 'junit', name: 'junit', version: '4.11+'
+
+    testCompile('com.datastax.cassandra:cassandra-driver-core:2.0.3') {
+        exclude group: 'org.apache.cassandra', module: 'cassandra-all'
+        exclude group: 'log4j'
+        exclude group: 'io.netty'
+        exclude group: 'com.google.guava'
+    }
+
+    testCompile('org.cassandraunit:cassandra-unit:2.0.2.0') {
+        exclude group: 'org.apache.cassandra', module: 'cassandra-all'
+        exclude group: 'log4j'
+        exclude group: 'org.sl4j'
+        exclude group: 'org.jboss.netty'
+        exclude group: 'com.google.guava'
+    }
+
+    testCompile group: 'net.sourceforge.argo', name: 'argo', version: '3.7'
+}
+
+task copyLibs(type: Copy) {
+    from configurations.compile
+    into 'build/dist/bettercloud/libs'
+    include 'kafka*.jar'
+    include 'scala-library-2*.jar'
+}
+
+task copyJar(type: Copy) {
+    dependsOn jar
+    from 'build/libs'
+    into 'build/dist/bettercloud/libs'
+}
+
+jar {
+    dependsOn([copyLibs])
+    baseName = "bettercloud-index"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+test {
+    systemProperty "cluster", System.getProperty("cluster")
+}

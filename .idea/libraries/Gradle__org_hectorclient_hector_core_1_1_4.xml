@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.hectorclient:hector-core:1.1-4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hectorclient/hector-core/1.1-4/1157a5d314cf494260daf07c4ca646dcbea5b18b/hector-core-1.1-4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hectorclient/hector-core/1.1-4/c0167cdf9afca7e12b38cc6b0fbf598cca774640/hector-core-1.1-4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
