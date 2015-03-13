@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BetterCloudCassandra.iml" filepath="$PROJECT_DIR$/BetterCloudCassandra.iml" />
       <module fileurl="file://$PROJECT_DIR$/CassandraElasticSearchIndex.iml" filepath="$PROJECT_DIR$/CassandraElasticSearchIndex.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CassandraKafkaIndex.iml" filepath="$PROJECT_DIR$/CassandraKafkaIndex.iml" />
     </modules>
   </component>
 </project>
