@@ -3,7 +3,6 @@ package com.bettercloud.cassandra;
 import org.apache.cassandra.utils.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.CharacterCodingException;
 import java.util.StringTokenizer;
 
 
@@ -30,13 +29,26 @@ public class BetterCloudUtil {
     }
 
     public static String toString(ByteBuffer col) {
-        String retVal = "";
-        try {
-            retVal =  ByteBufferUtil.string(col);
-        } catch (CharacterCodingException e) {
-            e.printStackTrace();
+        ByteBuffer bb = ByteBufferUtil.clone(col);
+        byte[] bytes = new byte[bb.remaining()];
+        bb.get(bytes);
+        return new String(chars(bytes));
+    }
+
+    private static char[] chars(byte[] bytes)
+    {
+        char[] chars = new char[bytes.length];
+        for (int i = 0; i < bytes.length; i++)
+        {
+            int pos = bytes[i] & 0xff;
+            chars[i] = (char) pos;
         }
-        return retVal;
+        return chars;
+    }
+
+    public static boolean isEmpty(ByteBuffer byteBuffer)
+    {
+        return byteBuffer.remaining() == 0;
     }
 
     public static String reorderTimeUUId(String originalTimeUUID) {

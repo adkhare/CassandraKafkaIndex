@@ -1,20 +1,19 @@
 package com.bettercloud.cassandra;
 
 import org.apache.cassandra.config.ColumnDefinition;
-import org.apache.cassandra.cql3.CFDefinition;
 import org.apache.cassandra.cql3.CQL3Type;
-import org.apache.cassandra.db.Column;
+import org.apache.cassandra.db.Cell;
 import org.apache.cassandra.db.ColumnFamily;
 import org.apache.cassandra.db.ColumnFamilyStore;
-import org.apache.cassandra.db.marshal.*;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.cassandra.db.composites.CellName;
+import org.apache.cassandra.db.marshal.AbstractType;
+import org.apache.cassandra.db.marshal.CollectionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,38 +49,39 @@ public class CassandraRowAssembler {
     }
 
     public void assemble(){
-        int partitionKeyCount = 0,clusteringKeyCount = 0;
-        String partitionKeyStringPart = "",clusteringKeyStringPart = "";
-        String[] partitionKeys, clusteringKeys;
+        int partitionKeyCount = 0;
+        String partitionKeyStringPart = "";
+        String[] partitionKeys;
         partitionKeyStringPart = baseCfs.metadata.getKeyValidator().getString(rowKey);
         partitionKeys = partitionKeyStringPart.split(":");
         Iterator<ColumnDefinition> itColDef = cf.metadata().allColumns().iterator();
         String keys = "";
-        Iterator<Column> itRegCols = cf.iterator();
+        Iterator<Cell> itRegCols = cf.iterator();
+
         logger.warn("Decorated Key : " + baseCfs.partitioner.decorateKey(rowKey));
         if(itRegCols.hasNext()){
             logger.warn("In Loop");
-            keys = getClusteringKeys(rowKey,itRegCols.next());
-            itRegCols = cf.iterator();
+            logger.warn(BetterCloudUtil.toString(itRegCols.next().value()));
+
         }
-        clusteringKeyStringPart = StringUtils.replace(keys, baseCfs.metadata.getKeyValidator().getString(rowKey) + ":", "");
-        clusteringKeys = clusteringKeyStringPart.split(":");
-        logger.warn("Clustering Keys : "+clusteringKeyStringPart);
+        itRegCols = cf.iterator();
+
         while(itColDef.hasNext()){
             ColumnDefinition colDef = itColDef.next();
-            switch (colDef.type.toString()) {
-                case BetterCloudUtil.partKeyType: {
-                    if(partitionKeys.length > 0)
-                    assemblePartitionKeys(colDef, partitionKeys, partitionKeyCount);
+
+            switch (colDef.kind) {
+                case PARTITION_KEY: {
+                    if(partitionKeys.length > 0){
+                        assemblePartitionKeys(colDef, partitionKeys, partitionKeyCount);
+                    }
                 }
                 break;
-                case BetterCloudUtil.clusKeyType: {
-                    if(clusteringKeys.length > 0)
-                    assembleClusteringKeys(clusteringKeys, clusteringKeyCount);
+                case CLUSTERING_COLUMN: {
+                    assembleClusteringKeys();
                 }
                 break;
-                case BetterCloudUtil.regularType : {
-                        assembleRegularColumns(itRegCols);
+                case REGULAR: {
+                    assembleRegularColumns(itRegCols);
                 }
                 break;
             }
@@ -97,89 +97,63 @@ public class CassandraRowAssembler {
     }
 
     private void assemblePartitionKeys(ColumnDefinition colDef, String[] partitionKeys, int partitionKeyCount){
-        messageDTO.setKeys(BetterCloudUtil.toString(colDef.name), partitionKeys[partitionKeys.length - 1 - partitionKeyCount]);
+        messageDTO.setKeys(colDef.name.toString(), partitionKeys[partitionKeys.length - 1 - partitionKeyCount]);
         partitionKeyCount++;
     }
 
-    private void assembleClusteringKeys(String[] clusteringKeys, int clusteringKeyCount){
-        Iterator<CFDefinition.Name> itClusKeys = cf.metadata().getCfDef().clusteringColumns().iterator();
-        if (itClusKeys.hasNext()) {
-            CFDefinition.Name clusKeyName = itClusKeys.next();
-            messageDTO.setKeys(clusKeyName.name.toString(), clusteringKeys[clusteringKeyCount]);
-            clusteringKeyCount++;
+    private void assembleClusteringKeys(){
+        ClusteringKeyMapper clusteringKeyMapper = new ClusteringKeyMapper(baseCfs.metadata);
+        String[] listClusterKey  = clusteringKeyMapper.clusteringKeys(cf);
+        Iterator<ColumnDefinition> clusCols = baseCfs.metadata.clusteringColumns().iterator();
+        for(int i = 0; listClusterKey!= null && i< listClusterKey.length ; i++){
+            messageDTO.setKeys(clusCols.next().name.toString(), listClusterKey[i]);
         }
     }
 
-    private String getClusteringKeys(ByteBuffer rowKey, Column column){
-        AbstractType<?> rowKeyComparator = baseCfs.metadata.getKeyValidator();
-        CompositeType baseComparator = (CompositeType) baseCfs.getComparator();
-        CFDefinition cfDef = baseCfs.metadata.getCfDef();
-        int prefixSize = baseComparator.types.size() - (cfDef.hasCollections ? 2 : 1);
-        List<AbstractType<?>> types = baseComparator.types;
-        int idx = types.get(types.size() - 1) instanceof ColumnToCollectionType ? types.size() - 2 : types.size() - 1;
-        ByteBuffer[] components = baseComparator.split(column.name());
-        //String colName = CFDefinition.definitionType.getString(components[idx]);
-        StringBuilder sb = new StringBuilder();
-        CompositeType.Builder builder = new CompositeType.Builder(baseComparator);
-        builder.add(rowKey);
-        sb.append(rowKeyComparator.getString(rowKey));
-        for (int i = 0; i < Math.min(prefixSize, components.length); i++) {
-            builder.add(components[i]);
-            AbstractType<?> componentType = types.get(i);
-            sb.append(':').append(componentType.compose(components[i]));
-        }
-        return sb.toString();
-    }
-
-    private void assembleRegularColumns(Iterator<Column> itRegCols){
+    private void assembleRegularColumns(Iterator<Cell> itRegCols){
         AbstractType type, keyType, valueType;
-        CompositeType baseComparator;
+        CollectionType collectionType;
         ByteBuffer[] components;
         CollectionType validator;
         while(itRegCols.hasNext()){
-            Column col = itRegCols.next();
-            if(baseCfs.metadata.getColumnDefinitionFromColumnName(col.name()) != null){
-                type = baseCfs.metadata.getColumnDefinitionFromColumnName(col.name()).getValidator();
-                if(!type.isCollection()){
-                    messageDTO.setObject(getActualColumnName(col), getString(col.value(), type));
-                }else {
-                    baseComparator = (CompositeType) baseCfs.getComparator();
-                    components = baseComparator.split(col.name());
-                    validator = (CollectionType)type;
-                    keyType = validator.nameComparator();
-                    valueType = validator.valueComparator();
-                    if (validator instanceof MapType) {
-                        ByteBuffer keyBuf = components[components.length - 1];
+            Cell cell = itRegCols.next();
+            CellName cellName = cell.name();
+            String name = cellName.cql3ColumnName(baseCfs.metadata).toString();
+            ColumnDefinition columnDefinition = baseCfs.metadata.getColumnDefinition(cellName);
+            if (columnDefinition == null)
+            {
+                continue;
+            }
+            ByteBuffer cellValue = cell.value();
+            valueType = columnDefinition.type;
+            if(!valueType.isCollection()){
+                messageDTO.setObject(name, getString(cell.value(), valueType));
+            }else {
+                collectionType = (CollectionType<?>) valueType;
+                switch(collectionType.kind){
+                    case SET:{
                         Map obj = new HashMap<String,String>();
-                        obj.put(getActualColumnName(col)+"._key",getString(keyBuf,keyType));
-                        obj.put(getActualColumnName(col) + "._value", getString(col.value(), valueType));
-                        obj.put(getActualColumnName(col)+"."+keyType.getString(keyBuf).toLowerCase(),getString(col.value(), valueType));
+                        obj.put(name, getString(cellName.collectionElement(), collectionType.nameComparator()));
                         messageDTO.setCollectionObject(obj);
-                    } else if (validator instanceof SetType) {
+                        break;
+                    }
+                    case LIST:{
                         Map obj = new HashMap<String,String>();
-                        obj.put(getActualColumnName(col), getString(components[components.length - 1], keyType));
+                        obj.put(name, getString(cellValue, collectionType.valueComparator()));
                         messageDTO.setCollectionObject(obj);
-                    } else if (validator instanceof ListType) {
+                        break;
+                    }
+                    case MAP:{
+                        logger.warn("In Map");
                         Map obj = new HashMap<String,String>();
-                        obj.put(getActualColumnName(col), getString(col.value(), valueType));
+                        obj.put(name + "._key",getString(cellName.collectionElement(),collectionType.nameComparator()));
+                        obj.put(name + "._value", getString(cellValue, collectionType.valueComparator()));
                         messageDTO.setCollectionObject(obj);
+                        break;
                     }
                 }
             }
         }
-    }
-
-    public String getActualColumnName(Column column){
-        CompositeType baseComparator = (CompositeType) baseCfs.getComparator();
-        List<AbstractType<?>> types = baseComparator.types;
-        int idx = types.get(types.size() - 1) instanceof ColumnToCollectionType ? types.size() - 2 : types.size() - 1;
-        ByteBuffer[] components = baseComparator.split(column.name());
-        return CFDefinition.definitionType.getString(components[idx]);
-    }
-
-    public String getActualColumnName(ByteBuffer name) {
-        ByteBuffer colName = ((CompositeType) baseCfs.getComparator()).extractLastComponent(name);
-        return StringUtils.removeStart(CFDefinition.definitionType.getString(colName), ".").trim();
     }
 
     private String getString(ByteBuffer colValue, AbstractType type){

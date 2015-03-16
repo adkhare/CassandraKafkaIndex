@@ -1,13 +1,14 @@
 package com.bettercloud.cassandra;
 
 import org.apache.cassandra.config.ColumnDefinition;
-import org.apache.cassandra.cql3.CFDefinition;
 import org.apache.cassandra.db.ColumnFamily;
 import org.apache.cassandra.db.ColumnFamilyStore;
 import org.apache.cassandra.db.DecoratedKey;
+import org.apache.cassandra.db.composites.CellName;
 import org.apache.cassandra.db.index.PerRowSecondaryIndex;
 import org.apache.cassandra.db.index.SecondaryIndexSearcher;
 import org.apache.cassandra.exceptions.ConfigurationException;
+import org.apache.cassandra.utils.concurrent.OpOrder;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +50,15 @@ public class CassandraIndex extends PerRowSecondaryIndex{
         messageDTO = rowAssembler.getMessageDTO();
         try {
             queueKafkaMessage(getMessageJson(messageDTO));
+            logger.info("Row sent to Kafka - " + getMessageJson(messageDTO));
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
+    }
+
+    @Override
+    public void delete(DecoratedKey key, OpOrder.Group opGroup) {
+
     }
 
     private String getMessageJson(MessageDTO msg){
@@ -74,12 +81,6 @@ public class CassandraIndex extends PerRowSecondaryIndex{
         }
         return returnVal;
     }
-
-    @Override
-    public void delete(DecoratedKey key) {
-        logger.warn("Deletion Called");
-    }
-
 
 
     @Override
@@ -111,11 +112,6 @@ public class CassandraIndex extends PerRowSecondaryIndex{
     }
 
     @Override
-    public long getLiveSize() {
-        return 0;
-    }
-
-    @Override
     public ColumnFamilyStore getIndexCfs() {
         return null;
     }
@@ -136,12 +132,17 @@ public class CassandraIndex extends PerRowSecondaryIndex{
     }
 
     @Override
-    public boolean indexes(ByteBuffer name){
+    public boolean indexes(CellName name) {
         return false;
     }
 
     @Override
+    public long estimateResultRows() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
-        return "RowIndex [index=" + indexName + ", keyspace=" + baseCfs.metadata.ksName + ", table=" + baseCfs.name + ", column=" + CFDefinition.definitionType.getString(columnDefinition.name).toLowerCase() + "]";
+        return "RowIndex [index=" + indexName + ", keyspace=" + baseCfs.metadata.ksName + ", table=" + baseCfs.name + ", column=" + columnDefinition.name.toString() + "]";
     }
 }
