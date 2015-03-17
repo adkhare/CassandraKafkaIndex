@@ -3,6 +3,7 @@ package com.bettercloud;
 import com.bettercloud.cassandra.KafkaProducer;
 import com.bettercloud.util.CQLUnitD;
 import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  * Created by amit on 3/5/15.
@@ -13,7 +14,7 @@ public class CassandraIndexTest extends CassandraIndexTestBase {
     public CassandraIndexTest() {
         cassandraCQLUnit = CQLUnitD.getCQLUnit(null);
     }
-    //@Test
+    @Test
     public void createIndexAndInsert(){
         try{
             createKS(keyspace);
@@ -26,7 +27,7 @@ public class CassandraIndexTest extends CassandraIndexTestBase {
         }
     }
 
-    //@Test
+    @Test
     public void createIndexAndInsertUpdate(){
         try{
             createKS(keyspace);
@@ -40,7 +41,7 @@ public class CassandraIndexTest extends CassandraIndexTestBase {
         }
     }
 
-    //@Test
+    @Test
     public void createIndexAndInsertDelete(){
         try{
             createKS(keyspace);
@@ -113,7 +114,7 @@ public class CassandraIndexTest extends CassandraIndexTestBase {
         }
     }
 
-    //@Test
+    @Test
     public void sendKafkaMessage() throws InterruptedException{
         KafkaProducer kafkaProducer = new KafkaProducer();
         String key = "testing", msg = "testing";

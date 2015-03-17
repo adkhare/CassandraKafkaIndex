@@ -48,6 +48,8 @@ public class CassandraIndex extends PerRowSecondaryIndex{
         rowAssembler.init(baseCfs, rowKey, cf);
         rowAssembler.assemble();
         messageDTO = rowAssembler.getMessageDTO();
+        logger.warn("Keys - "+messageDTO.getKeys());
+        logger.warn(getMessageJson(messageDTO));
         try {
             queueKafkaMessage(getMessageJson(messageDTO));
             logger.info("Row sent to Kafka - " + getMessageJson(messageDTO));
@@ -66,6 +68,7 @@ public class CassandraIndex extends PerRowSecondaryIndex{
         try {
             returnVal = mapper.writeValueAsString(msg);
         } catch (IOException e) {
+            logger.error(e.getLocalizedMessage());
             e.printStackTrace();
         }
         return returnVal;

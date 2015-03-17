@@ -67,7 +67,7 @@ public class MessageDTO {
             Map.Entry<String,String> entry = it.next();
             sb.append("'"+entry.getKey()+"':'"+entry.getValue()+"',");
         }
-        sb.setLength(sb.length() - 1);
+        if(sb.length() > 0) sb.setLength(sb.length() - 1);
         return sb.toString();
     }
 
@@ -78,7 +78,7 @@ public class MessageDTO {
             Map.Entry<String,String> entry = it.next();
             sb.append("'"+entry.getKey()+"':'"+entry.getValue()+"',");
         }
-        sb.setLength(sb.length() - 1);
+        if(sb.length() > 0) sb.setLength(sb.length() - 1);
         return sb.toString();
     }
 
@@ -91,18 +91,11 @@ public class MessageDTO {
                 sb.append("'"+entry.getKey()+"':'"+entry.getValue()+"',");
             }
         }
-        sb.setLength(sb.length() - 1);
+        if(sb.length() > 0) sb.setLength(sb.length() - 1);
         return sb.toString();
     }
 
     public String getOperation(){
         return operation;
     }
-
-    @Override
-    public String toString()
-    {
-        return "Entity[entity="+entity+"]";
-    }
-
 }
