@@ -23,7 +23,7 @@ class IndexEventSubscriber extends Thread {
         this.queue = queue;
         stopped = new AtomicBoolean(false);
         started = new AtomicBoolean(false);
-        setName("SGIndex Entry Subscriber");
+        setName("BetterCloud Index Entry Subscriber");
     }
 
 
