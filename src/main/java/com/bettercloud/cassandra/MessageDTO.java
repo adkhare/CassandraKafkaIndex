@@ -7,6 +7,8 @@ import java.util.*;
  */
 public class MessageDTO {
 
+    private String timestamp;
+
     private String keyspace;
 
     private String entity;
@@ -97,5 +99,13 @@ public class MessageDTO {
 
     public String getOperation(){
         return operation;
+    }
+
+    public void setTimestamp(String timestamp){
+        this.timestamp = timestamp;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 }

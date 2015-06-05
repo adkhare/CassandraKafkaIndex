@@ -9,11 +9,9 @@ import org.apache.cassandra.db.index.PerRowSecondaryIndex;
 import org.apache.cassandra.db.index.SecondaryIndexSearcher;
 import org.apache.cassandra.exceptions.ConfigurationException;
 import org.apache.cassandra.utils.concurrent.OpOrder;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Set;
 
@@ -25,10 +23,8 @@ public class CassandraIndex extends PerRowSecondaryIndex{
     protected static final Logger logger = LoggerFactory.getLogger(CassandraIndex.class);
     protected String indexName;
     protected ColumnDefinition columnDefinition;
-    private KafkaProducer kafkaProducer;
-    private ObjectMapper mapper;
-    private CassandraRowAssembler rowAssembler;
-    private MessageDTO messageDTO;
+    protected volatile long latest;
+    protected RowIndexSupport rowIndexSupport;
 
     @Override
     public void init() {
@@ -37,54 +33,19 @@ public class CassandraIndex extends PerRowSecondaryIndex{
         assert columnDefs.size() > 0;
         columnDefinition = columnDefs.iterator().next();
         indexName = columnDefinition.getIndexName();
-        rowAssembler = new CassandraRowAssembler();
-        kafkaProducer = new KafkaProducer();
-        mapper = new ObjectMapper();
+        rowIndexSupport = new RowIndexSupport(baseCfs,indexName);
+        BetterCloud.getInstance().register(rowIndexSupport);
         logger.warn("Creating new RowIndex for {}", indexName);
     }
 
     @Override
     public void index(ByteBuffer rowKey, ColumnFamily cf) {
-        rowAssembler.init(baseCfs, rowKey, cf);
-        rowAssembler.assemble();
-        messageDTO = rowAssembler.getMessageDTO();
-        logger.warn("Keys - "+messageDTO.getKeys());
-        logger.warn(getMessageJson(messageDTO));
-        try {
-            queueKafkaMessage(getMessageJson(messageDTO));
-            logger.info("Row sent to Kafka - " + getMessageJson(messageDTO));
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+        latest = BetterCloud.getInstance().publish(rowKey, cf);
     }
 
     @Override
     public void delete(DecoratedKey key, OpOrder.Group opGroup) {
-
     }
-
-    private String getMessageJson(MessageDTO msg){
-        String returnVal = "";
-        try {
-            returnVal = mapper.writeValueAsString(msg);
-        } catch (IOException e) {
-            logger.error(e.getLocalizedMessage());
-            e.printStackTrace();
-        }
-        return returnVal;
-    }
-
-    public String queueKafkaMessage(String msg){
-        String returnVal = "";
-        try{
-            kafkaProducer.init("bettercloud-testing.cloudapp.net:9092");
-            returnVal = kafkaProducer.produce(messageDTO.getKeyspace()+"."+messageDTO.getEntity(),msg,"test-cassandra-kafka");
-        }catch(Exception e){
-            logger.warn(e.getMessage());
-        }
-        return returnVal;
-    }
-
 
     @Override
     public void reload() {

@@ -52,6 +52,7 @@ public class CassandraRowAssembler {
         String partitionKeyStringPart = "";
         String[] partitionKeys;
         partitionKeyStringPart = baseCfs.metadata.getKeyValidator().getString(rowKey);
+        messageDTO.setTimestamp(cf.maxTimestamp()+"");
         partitionKeys = partitionKeyStringPart.split(":");
         Iterator<ColumnDefinition> itColDef = cf.metadata().allColumns().iterator();
         Iterator<Cell> itRegCols = cf.iterator();
@@ -76,6 +77,7 @@ public class CassandraRowAssembler {
                 break;
             }
         }
+
         messageDTO.setKeyspace(baseCfs.metadata.ksName);
         messageDTO.setEntity(baseCfs.name);
         if(cf.isMarkedForDelete() && !cf.iterator().hasNext()){
@@ -83,7 +85,7 @@ public class CassandraRowAssembler {
         }else{
             messageDTO.setOperation(Operation.insert.name());
         }
-        logger.warn("Operation : " + messageDTO.getOperation());
+        //logger.warn("Operation : " + messageDTO.getOperation());
     }
 
     private void assemblePartitionKeys(ColumnDefinition colDef, String[] partitionKeys, int partitionKeyCount){
@@ -93,10 +95,13 @@ public class CassandraRowAssembler {
 
     private void assembleClusteringKeys(){
         ClusteringKeyMapper clusteringKeyMapper = new ClusteringKeyMapper(baseCfs.metadata);
+        String keyname;
         String[] listClusterKey  = clusteringKeyMapper.clusteringKeys(cf);
         Iterator<ColumnDefinition> clusCols = baseCfs.metadata.clusteringColumns().iterator();
         for(int i = 0; listClusterKey!= null && i< listClusterKey.length ; i++){
-            messageDTO.setKeys(clusCols.next().name.toString(), listClusterKey[i]);
+            keyname = clusCols.next().name.toString();
+            messageDTO.setKeys(keyname, listClusterKey[i]);
+            //logger.info(keyname+i+":"+listClusterKey[i]);
         }
     }
 

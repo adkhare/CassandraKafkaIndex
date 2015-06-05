@@ -1,9 +1,12 @@
 package com.bettercloud.cassandra;
 
+import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.cql3.CQL3Type;
 import org.apache.cassandra.db.marshal.AbstractType;
+import org.apache.cassandra.exceptions.ConfigurationException;
 import org.apache.cassandra.utils.ByteBufferUtil;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.StringTokenizer;
 
@@ -25,6 +28,10 @@ public class BetterCloudUtil {
     public static final String partKeyType = "PARTITION_KEY";
     public static final String clusKeyType = "CLUSTERING_KEY";
     public static final String regularType = "REGULAR";
+
+    public static String[] getDataDirs() throws IOException, ConfigurationException {
+        return DatabaseDescriptor.getAllDataFileLocations();
+    }
 
     public static int toInt(ByteBuffer col){
         return ByteBufferUtil.toInt(col);
