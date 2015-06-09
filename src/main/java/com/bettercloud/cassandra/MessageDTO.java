@@ -7,6 +7,8 @@ import java.util.*;
  */
 public class MessageDTO {
 
+    private String timestamp;
+
     private String keyspace;
 
     private String entity;
@@ -67,7 +69,7 @@ public class MessageDTO {
             Map.Entry<String,String> entry = it.next();
             sb.append("'"+entry.getKey()+"':'"+entry.getValue()+"',");
         }
-        sb.setLength(sb.length() - 1);
+        if(sb.length() > 0) sb.setLength(sb.length() - 1);
         return sb.toString();
     }
 
@@ -78,7 +80,7 @@ public class MessageDTO {
             Map.Entry<String,String> entry = it.next();
             sb.append("'"+entry.getKey()+"':'"+entry.getValue()+"',");
         }
-        sb.setLength(sb.length() - 1);
+        if(sb.length() > 0) sb.setLength(sb.length() - 1);
         return sb.toString();
     }
 
@@ -91,7 +93,7 @@ public class MessageDTO {
                 sb.append("'"+entry.getKey()+"':'"+entry.getValue()+"',");
             }
         }
-        sb.setLength(sb.length() - 1);
+        if(sb.length() > 0) sb.setLength(sb.length() - 1);
         return sb.toString();
     }
 
@@ -99,10 +101,11 @@ public class MessageDTO {
         return operation;
     }
 
-    @Override
-    public String toString()
-    {
-        return "Entity[entity="+entity+"]";
+    public void setTimestamp(String timestamp){
+        this.timestamp = timestamp;
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
 }

@@ -1,18 +1,17 @@
 package com.bettercloud.cassandra;
 
 import org.apache.cassandra.config.ColumnDefinition;
-import org.apache.cassandra.cql3.CFDefinition;
 import org.apache.cassandra.db.ColumnFamily;
 import org.apache.cassandra.db.ColumnFamilyStore;
 import org.apache.cassandra.db.DecoratedKey;
+import org.apache.cassandra.db.composites.CellName;
 import org.apache.cassandra.db.index.PerRowSecondaryIndex;
 import org.apache.cassandra.db.index.SecondaryIndexSearcher;
 import org.apache.cassandra.exceptions.ConfigurationException;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.apache.cassandra.utils.concurrent.OpOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Set;
 
@@ -24,63 +23,32 @@ public class CassandraIndex extends PerRowSecondaryIndex{
     protected static final Logger logger = LoggerFactory.getLogger(CassandraIndex.class);
     protected String indexName;
     protected ColumnDefinition columnDefinition;
-    private KafkaProducer kafkaProducer;
-    private ObjectMapper mapper;
-    private CassandraRowAssembler rowAssembler;
-    private MessageDTO messageDTO;
+    protected volatile long latest;
+    protected RowIndexSupport rowIndexSupport;
 
     @Override
     public void init() {
         assert baseCfs != null;
         assert columnDefs != null;
         assert columnDefs.size() > 0;
+        for(ColumnDefinition columnDefinition1 : columnDefs){
+            logger.info(columnDefinition1.getIndexName());
+        }
         columnDefinition = columnDefs.iterator().next();
         indexName = columnDefinition.getIndexName();
-        rowAssembler = new CassandraRowAssembler();
-        kafkaProducer = new KafkaProducer();
-        mapper = new ObjectMapper();
+        rowIndexSupport = new RowIndexSupport(baseCfs,indexName);
+        BetterCloud.getInstance().register(rowIndexSupport);
         logger.warn("Creating new RowIndex for {}", indexName);
     }
 
     @Override
     public void index(ByteBuffer rowKey, ColumnFamily cf) {
-        rowAssembler.init(baseCfs, rowKey, cf);
-        rowAssembler.assemble();
-        messageDTO = rowAssembler.getMessageDTO();
-        try {
-            queueKafkaMessage(getMessageJson(messageDTO));
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    private String getMessageJson(MessageDTO msg){
-        String returnVal = "";
-        try {
-            returnVal = mapper.writeValueAsString(msg);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return returnVal;
-    }
-
-    public String queueKafkaMessage(String msg){
-        String returnVal = "";
-        try{
-            kafkaProducer.init("bettercloud-testing.cloudapp.net:9092");
-            returnVal = kafkaProducer.produce(messageDTO.getKeyspace()+"."+messageDTO.getEntity(),msg,"test-cassandra-kafka");
-        }catch(Exception e){
-            logger.warn(e.getMessage());
-        }
-        return returnVal;
+        latest = BetterCloud.getInstance().publish(rowKey, cf);
     }
 
     @Override
-    public void delete(DecoratedKey key) {
-        logger.warn("Deletion Called");
+    public void delete(DecoratedKey key, OpOrder.Group opGroup) {
     }
-
-
 
     @Override
     public void reload() {
@@ -111,11 +79,6 @@ public class CassandraIndex extends PerRowSecondaryIndex{
     }
 
     @Override
-    public long getLiveSize() {
-        return 0;
-    }
-
-    @Override
     public ColumnFamilyStore getIndexCfs() {
         return null;
     }
@@ -136,12 +99,17 @@ public class CassandraIndex extends PerRowSecondaryIndex{
     }
 
     @Override
-    public boolean indexes(ByteBuffer name){
+    public boolean indexes(CellName name) {
         return false;
     }
 
     @Override
+    public long estimateResultRows() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
-        return "RowIndex [index=" + indexName + ", keyspace=" + baseCfs.metadata.ksName + ", table=" + baseCfs.name + ", column=" + CFDefinition.definitionType.getString(columnDefinition.name).toLowerCase() + "]";
+        return "RowIndex [index=" + indexName + ", keyspace=" + baseCfs.metadata.ksName + ", table=" + baseCfs.name + ", column=" + columnDefinition.name.toString() + "]";
     }
 }

@@ -1,9 +1,13 @@
 package com.bettercloud.cassandra;
 
+import org.apache.cassandra.config.DatabaseDescriptor;
+import org.apache.cassandra.cql3.CQL3Type;
+import org.apache.cassandra.db.marshal.AbstractType;
+import org.apache.cassandra.exceptions.ConfigurationException;
 import org.apache.cassandra.utils.ByteBufferUtil;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.charset.CharacterCodingException;
 import java.util.StringTokenizer;
 
 
@@ -25,18 +29,35 @@ public class BetterCloudUtil {
     public static final String clusKeyType = "CLUSTERING_KEY";
     public static final String regularType = "REGULAR";
 
+    public static String[] getDataDirs() throws IOException, ConfigurationException {
+        return DatabaseDescriptor.getAllDataFileLocations();
+    }
+
     public static int toInt(ByteBuffer col){
         return ByteBufferUtil.toInt(col);
     }
 
     public static String toString(ByteBuffer col) {
-        String retVal = "";
-        try {
-            retVal =  ByteBufferUtil.string(col);
-        } catch (CharacterCodingException e) {
-            e.printStackTrace();
+        ByteBuffer bb = ByteBufferUtil.clone(col);
+        byte[] bytes = new byte[bb.remaining()];
+        bb.get(bytes);
+        return new String(chars(bytes));
+    }
+
+    private static char[] chars(byte[] bytes)
+    {
+        char[] chars = new char[bytes.length];
+        for (int i = 0; i < bytes.length; i++)
+        {
+            int pos = bytes[i] & 0xff;
+            chars[i] = (char) pos;
         }
-        return retVal;
+        return chars;
+    }
+
+    public static boolean isEmpty(ByteBuffer byteBuffer)
+    {
+        return byteBuffer.remaining() == 0;
     }
 
     public static String reorderTimeUUId(String originalTimeUUID) {
@@ -51,5 +72,40 @@ public class BetterCloudUtil {
         }
 
         return originalTimeUUID;
+    }
+
+    public static String getString(ByteBuffer colValue, AbstractType type){
+        switch ((CQL3Type.Native)type.asCQL3Type()){
+            case TEXT :
+                return type.getString(colValue);
+            case ASCII :
+                return type.getString(colValue);
+            case VARCHAR :
+                return type.getString(colValue);
+            case INT :
+                return ((Integer) type.compose(colValue)).toString()+"";
+            case BIGINT :
+                return ((Number) type.compose(colValue)).longValue()+"";
+            case VARINT :
+                return ""+((Number) type.compose(colValue)).longValue();
+            case COUNTER :
+                return ""+((Number) type.compose(colValue)).longValue();
+            case DECIMAL :
+                return ""+((Number) type.compose(colValue)).doubleValue();
+            case DOUBLE :
+                return ""+((Number) type.compose(colValue)).doubleValue();
+            case FLOAT :
+                return ""+((Number) type.compose(colValue)).floatValue();
+            case UUID :
+                return type.getString(colValue);
+            case TIMEUUID :
+                return BetterCloudUtil.reorderTimeUUId(type.getString(colValue));
+            case TIMESTAMP :
+                return type.getString(colValue);
+            case BOOLEAN :
+                return ((Boolean) type.compose(colValue)).toString();
+            default :
+                return type.getString(colValue);
+        }
     }
 }
