@@ -65,6 +65,7 @@ public class BetterCloud implements IEndpointStateChangeSubscriber, BetterCloudM
             jedisPoolConfig = new JedisPoolConfig();
             jedisPoolConfig.setLifo(false);
             jedisPoolConfig.setMaxTotal(10);
+            jedisPoolConfig.setMaxWaitMillis(10);
             jedisNodes = new HashSet<HostAndPort>();
             jedisNodes.add(new HostAndPort("10.0.0.4",6379));
             jedisNodes.add(new HostAndPort("10.0.0.9",6379));

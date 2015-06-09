@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RowIndexSupport {
     protected static final Logger logger = LoggerFactory.getLogger(RowIndexSupport.class);
@@ -32,22 +34,40 @@ public class RowIndexSupport {
         mapper = new ObjectMapper();
         //rowAssembler.assemble();
         messageDTO = rowAssembler.getMessageDTO();
+        List<Exception> exceptions = new ArrayList<Exception>();
+
         if(messageDTO != null){
             try{
+                if(logger.isDebugEnabled()){
+                    logger.debug("Deduping key - "+messageDTO.getTimestamp()+"-"+indexName+"-"+messageDTO.getKeys() + "using Redis Cluster");
+                }
                 deDupleFlag = dedupeRedis(messageDTO.getTimestamp()+"-"+indexName+"-"+messageDTO.getKeys(),"");
             }catch (Exception e){
-                throw new BetterCloudIndexException(messageDTO.getTimestamp(),getMessageJson(messageDTO),e.getMessage(),rowKey,cf);
+                logger.warn("Error with Redis Dedupe - "+e.getMessage());
+                //exceptions.add(e);
+                //throw new BetterCloudIndexException(messageDTO.getTimestamp(),getMessageJson(messageDTO),e.getMessage(),rowKey,cf);
             }
             if(deDupleFlag) {
                 try{
+                    if(logger.isDebugEnabled()){
+                        logger.debug("Row being set to kafka - "+getMessageJson(messageDTO));
+                    }
                     queueKafkaMessage(getMessageJson(messageDTO));
                 }catch (Exception e){
                     removeDedupe(messageDTO.getTimestamp());
-                    throw new BetterCloudIndexException(messageDTO.getTimestamp(),getMessageJson(messageDTO),e.getMessage(),rowKey,cf);
+                    exceptions.add(e);
+                    //throw new BetterCloudIndexException(messageDTO.getTimestamp(),getMessageJson(messageDTO),e.getMessage(),rowKey,cf);
                 }
             }
         }else {
-            throw new BetterCloudIndexException("","","MessageDTO is null",rowKey,cf);
+            throw new BetterCloudIndexException("","","MessageDTO is null",rowKey,cf,true);
+        }
+        if(!exceptions.isEmpty()){
+            StringBuilder sb = new StringBuilder();
+            for(Exception e : exceptions){
+                sb.append(e.getMessage());
+            }
+            throw new BetterCloudIndexException(messageDTO.getTimestamp(),getMessageJson(messageDTO),sb.toString(),rowKey,cf,true);
         }
     }
 

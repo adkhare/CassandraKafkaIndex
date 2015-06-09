@@ -35,9 +35,13 @@ public class IndexingService {
         final RowIndexSupport rowIndexSupport = this.support.get(columnFamily.metadata().cfName);
         try {
             rowIndexSupport.indexRow(rowkeyBuffer, columnFamily);
-        } catch (Exception e) {
+        } catch (BetterCloudIndexException e) {
             logger.error("Error occurred while indexing row of [" + columnFamily.metadata().cfName + "]", e);
-            BetterCloud.getInstance().publish(rowkeyBuffer,columnFamily);
+            if(e.isRetry()){
+                BetterCloud.getInstance().publish(rowkeyBuffer,columnFamily);
+            }
+        } catch (Exception e){
+            logger.error("Error occurred while indexing row of [" + columnFamily.metadata().cfName + "]", e);
         }
 
         long readGen = reads.incrementAndGet();
