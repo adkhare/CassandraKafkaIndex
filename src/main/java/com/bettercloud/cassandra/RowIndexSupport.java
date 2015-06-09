@@ -1,18 +1,3 @@
-/*
- * Copyright 2014, Tuplejump Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.bettercloud.cassandra;
 
@@ -25,10 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-/**
- * User: satya
- * Interface for writing a row to a lucene index.
- */
 public class RowIndexSupport {
     protected static final Logger logger = LoggerFactory.getLogger(RowIndexSupport.class);
     private KafkaProducer kafkaProducer;
@@ -45,39 +26,42 @@ public class RowIndexSupport {
         this.indexName = indexName;
     }
 
-    public void indexRow(ByteBuffer rowKey, ColumnFamily cf) {
-        rowAssembler = new CassandraRowAssembler();
-        kafkaProducer = new KafkaProducer();
+    public void indexRow(ByteBuffer rowKey, ColumnFamily cf) throws Exception{
+        boolean deDupleFlag = true;
+        rowAssembler = new CassandraRowAssembler(baseCfs, rowKey, cf);
         mapper = new ObjectMapper();
-        redisConnection = new RedisConnection();
-        rowAssembler.init(baseCfs, rowKey, cf);
-        rowAssembler.assemble();
+        //rowAssembler.assemble();
         messageDTO = rowAssembler.getMessageDTO();
-
-        try {
-            if(dedupeRedis(messageDTO.getTimestamp(),"")) {
-                queueKafkaMessage(getMessageJson(messageDTO));
+        if(messageDTO != null){
+            try{
+                deDupleFlag = dedupeRedis(messageDTO.getTimestamp()+"-"+indexName+"-"+messageDTO.getKeys(),"");
+            }catch (Exception e){
+                throw new BetterCloudIndexException(messageDTO.getTimestamp(),getMessageJson(messageDTO),e.getMessage(),rowKey,cf);
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+            if(deDupleFlag) {
+                try{
+                    queueKafkaMessage(getMessageJson(messageDTO));
+                }catch (Exception e){
+                    removeDedupe(messageDTO.getTimestamp());
+                    throw new BetterCloudIndexException(messageDTO.getTimestamp(),getMessageJson(messageDTO),e.getMessage(),rowKey,cf);
+                }
+            }
+        }else {
+            throw new BetterCloudIndexException("","","MessageDTO is null",rowKey,cf);
         }
-
     }
 
     private boolean dedupeRedis(String key, String value){
-        redisConnection.init(BetterCloud.getInstance().getRedisClusterConnectionFromPool());
-        return redisConnection.setKey(key, value, MINS*60);
+        boolean returnFlag = true;
+        redisConnection = new RedisConnection(BetterCloud.getInstance().getRedisClusterConnectionFromPool());
+        returnFlag = redisConnection.setKey(key, value, MINS*60);
+        return returnFlag;
     }
 
     public String queueKafkaMessage(String msg){
-        String returnVal = "";
-        try{
-            kafkaProducer.init("10.0.0.5:9092");
-            returnVal = kafkaProducer.produce(messageDTO.getKeyspace()+"."+messageDTO.getEntity(),msg,"test-cassandra-kafka-1");
-            logger.info("Row sent to Kafka - " + msg);
-        }catch(Exception e){
-            logger.warn(e.getMessage());
-        }
+        String returnVal = "E";
+        kafkaProducer = new KafkaProducer("10.0.0.5:9092");
+        returnVal = kafkaProducer.produce(messageDTO.getKeyspace()+"."+messageDTO.getEntity(),msg,"test-cassandra-kafka-1");
         return returnVal;
     }
 
@@ -86,12 +70,15 @@ public class RowIndexSupport {
         try {
             returnVal = mapper.writeValueAsString(msg);
         } catch (IOException e) {
-            logger.error(e.getLocalizedMessage());
             e.printStackTrace();
         }
         return returnVal;
     }
 
+    private void removeDedupe(String key){
+        redisConnection = new RedisConnection(BetterCloud.getInstance().getRedisClusterConnectionFromPool());
+        redisConnection.deleteKey(key);
+    }
 
 
 }

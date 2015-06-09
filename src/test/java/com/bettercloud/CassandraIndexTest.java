@@ -122,9 +122,9 @@ public class CassandraIndexTest extends CassandraIndexTestBase {
 
     //@Test
     public void sendKafkaMessage() throws InterruptedException{
-        KafkaProducer kafkaProducer = new KafkaProducer();
+        KafkaProducer kafkaProducer = new KafkaProducer("bettercloud-testing.cloudapp.net:9092");
         String key = "testing", msg = "testing";
-        kafkaProducer.init("bettercloud-testing.cloudapp.net:9092");
+        //kafkaProducer.init("bettercloud-testing.cloudapp.net:9092");
         org.junit.Assert.assertEquals("Test Successful", "S", kafkaProducer.produce("testing", "testing", "test-cassandra-kafka"));
     }
 

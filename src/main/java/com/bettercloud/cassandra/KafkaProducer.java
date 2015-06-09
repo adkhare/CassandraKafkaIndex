@@ -14,8 +14,15 @@ public class KafkaProducer {
     private Properties props;
     private ProducerConfig config;
     private Producer<String,String> producer;
-    public KafkaProducer(){
+    public KafkaProducer(String brokerList){
         props = new Properties();
+        props.put("metadata.broker.list", brokerList);
+        props.put("serializer.class", "kafka.serializer.StringEncoder");
+        props.put("request.required.acks", "1");
+
+        config = new ProducerConfig(props);
+
+        producer = new Producer<String, String>(config);
     }
 
     public void init(String brokerList){
@@ -31,14 +38,8 @@ public class KafkaProducer {
     public String produce(String key, String message,String topic){
 
         String returnString = "";
-        try{
-            KeyedMessage<String,String> msg = new KeyedMessage<String, String>(topic,key,message);
-            producer.send(msg);
-            returnString = "S";
-        }catch (Exception e){
-            returnString = e.getStackTrace().toString();
-        }
-
-        return returnString;
+        KeyedMessage<String,String> msg = new KeyedMessage<String, String>(topic,key,message);
+        producer.send(msg);
+        return "S";
     }
 }

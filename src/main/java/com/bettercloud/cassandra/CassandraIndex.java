@@ -31,6 +31,9 @@ public class CassandraIndex extends PerRowSecondaryIndex{
         assert baseCfs != null;
         assert columnDefs != null;
         assert columnDefs.size() > 0;
+        for(ColumnDefinition columnDefinition1 : columnDefs){
+            logger.info(columnDefinition1.getIndexName());
+        }
         columnDefinition = columnDefs.iterator().next();
         indexName = columnDefinition.getIndexName();
         rowIndexSupport = new RowIndexSupport(baseCfs,indexName);

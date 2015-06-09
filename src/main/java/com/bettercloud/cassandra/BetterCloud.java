@@ -3,21 +3,6 @@ package com.bettercloud.cassandra;
 /**
  * Created by amit on 5/28/15.
  */
-/*
- * Copyright 2014, Tuplejump Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 import org.apache.cassandra.db.ColumnFamily;
 import org.apache.cassandra.exceptions.ConfigurationException;
@@ -49,7 +34,6 @@ import java.util.concurrent.BlockingQueue;
 public class BetterCloud implements IEndpointStateChangeSubscriber, BetterCloudMBean {
     protected static final Logger logger = LoggerFactory.getLogger(BetterCloud.class);
     private final static BetterCloud INSTANCE = new BetterCloud();
-
     static {
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         try {
@@ -124,12 +108,22 @@ public class BetterCloud implements IEndpointStateChangeSubscriber, BetterCloudM
     }
 
     public long publish(ByteBuffer rowKey, ColumnFamily columnFamily) {
-        queue.offer(new IndexEntryEvent(IndexEntryEvent.Type.UPSERT, rowKey, columnFamily));
-        long writeGen = writes.incrementAndGet();
-        if (logger.isDebugEnabled())
-            logger.debug("Write gen:" + writeGen);
-        logger.info("Write gen:" + writeGen);
-        return writeGen;
+        /*try {
+            indexingService.support.get(columnFamily.metadata().cfName).indexRow(rowKey, columnFamily);
+        } catch (Exception e) {
+            logger.error("",e);
+        }
+        return -1;
+        */
+        if(rowKey!=null){
+            queue.offer(new IndexEntryEvent(IndexEntryEvent.Type.UPSERT, rowKey, columnFamily));
+            long writeGen = writes.incrementAndGet();
+            if (logger.isDebugEnabled())
+                logger.debug("Write gen:" + writeGen);
+            return writeGen;
+        }else{
+            throw new NullPointerException();
+        }
     }
 
 

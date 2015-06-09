@@ -1,8 +1,6 @@
 package com.bettercloud.cassandra;
 
-import org.apache.cassandra.db.AtomicBTreeColumns;
 import org.apache.cassandra.db.ColumnFamily;
-import org.apache.cassandra.db.ColumnSerializer;
 import org.apache.cassandra.io.util.AbstractDataOutput;
 import org.apache.cassandra.io.util.DataOutputPlus;
 import org.apache.cassandra.net.MessagingService;
@@ -19,9 +17,6 @@ import java.nio.ByteBuffer;
  * Created by amit on 5/28/15.
  */
 
-/**
- * User: satya
- */
 public class IndexEntryEvent implements Serializable {
     public final ByteBuffer rowKey;
     public final ColumnFamily columnFamily;
@@ -59,7 +54,7 @@ public class IndexEntryEvent implements Serializable {
             Type type = Type.fromByte(in.readByte());
             int rowKeyLength = in.readInt();
             ByteBuffer rowKeyBuffer = ByteBufferUtil.read(in, rowKeyLength);
-            ColumnFamily columnFamily = ColumnFamily.serializer.deserialize(in, AtomicBTreeColumns.factory, ColumnSerializer.Flag.LOCAL, MessagingService.current_version);
+            ColumnFamily columnFamily = ColumnFamily.serializer.deserialize(in, MessagingService.current_version);
             return new IndexEntryEvent(type, rowKeyBuffer, columnFamily);
         }
 
@@ -70,9 +65,24 @@ public class IndexEntryEvent implements Serializable {
         }
     }
 
-    /**
-     * User: satya
-     */
+    public static class StringSerializer implements Serializer<String>,Serializable {
+
+        @Override
+        public void serialize(DataOutput out, String value) throws IOException {
+            out.writeBytes(value);
+        }
+
+        @Override
+        public String deserialize(DataInput in, int available) throws IOException {
+            return in.readUTF();
+        }
+
+        @Override
+        public int fixedSize() {
+            return -1;
+        }
+    }
+
     public static enum Type {
         UPSERT((byte) 0x01);
 

@@ -17,13 +17,12 @@ class IndexEventSubscriber extends Thread {
     AtomicBoolean started;
     IndexingService indexingService;
 
-
     public IndexEventSubscriber(IndexingService indexingService, BlockingQueue<IndexEntryEvent> queue) {
         this.indexingService = indexingService;
         this.queue = queue;
         stopped = new AtomicBoolean(false);
         started = new AtomicBoolean(false);
-        setName("BetterCloud Index Entry Subscriber");
+        setName("Index Entry Subscriber");
     }
 
 

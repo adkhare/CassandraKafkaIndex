@@ -10,9 +10,6 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-/**
- * User: satya
- */
 public class Utils {
 
     public static SimpleTimer getStartedTimer(Logger logger) {
