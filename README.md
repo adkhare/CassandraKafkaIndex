@@ -1,3 +1,3 @@
-#Based on Fork of Stargate-Core
+#Inspired by Stargate-Core
 # CassandraKafkaIndex
 Library to push Index to Kafka
