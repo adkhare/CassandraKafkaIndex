@@ -62,7 +62,7 @@ public class IndexingService {
         long readGen = reads.incrementAndGet();
         if (logger.isDebugEnabled())
             logger.debug("Read gen:" + readGen);
-        /*executorService.submit(new Runnable() {
+        executorService.submit(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -76,6 +76,6 @@ public class IndexingService {
                 if (logger.isDebugEnabled())
                     logger.debug("Read gen:" + readGen);
             }
-        });*/
+        });
     }
 }
