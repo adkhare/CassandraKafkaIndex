@@ -13,13 +13,15 @@ public class BetterCloudIndexException extends Exception {
     private String message;
     private ByteBuffer rowKey;
     private ColumnFamily cf;
+    private boolean retry;
 
-    public BetterCloudIndexException(String messageKey,String messageJSON, String message,ByteBuffer rowKey,ColumnFamily cf){
+    public BetterCloudIndexException(String messageKey,String messageJSON, String message,ByteBuffer rowKey,ColumnFamily cf, Boolean retry){
         this.messageKey = messageKey;
         this.messageJSON = messageJSON;
         this.message = messageJSON + message;
         this.rowKey = rowKey;
         this.cf = cf;
+        this.retry = retry;
     }
 
     public String getMessageKey(){
@@ -36,5 +38,9 @@ public class BetterCloudIndexException extends Exception {
 
     public ColumnFamily getCf(){
         return this.cf;
+    }
+
+    public boolean isRetry(){
+        return retry;
     }
 }

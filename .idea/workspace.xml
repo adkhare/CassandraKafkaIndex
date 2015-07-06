@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70855063-5f52-4538-933e-33aa28bfa73e" name="Default" comment="Cassandra 2.1.3 Compatibility Changes">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloud.java" afterPath="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloud.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloudIndexException.java" afterPath="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloudIndexException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/IndexingService.java" afterPath="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/IndexingService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java" afterPath="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CassandraElasticSearchIndex.iws" />
@@ -42,20 +45,21 @@
       <file leaf-file-name="RowIndexSupport.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.592592" vertical-offset="326" max-vertical-offset="1350">
-              <caret line="48" column="15" selection-start-line="48" selection-start-column="15" selection-end-line="48" selection-end-column="15" />
+            <state vertical-scroll-proportion="-6.3333335" vertical-offset="954" max-vertical-offset="1650">
+              <caret line="75" column="38" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1290#1301#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="653">
-              <caret line="0" column="10" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
+            <state vertical-scroll-proportion="-1.5" vertical-offset="0" max-vertical-offset="135">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -67,8 +71,8 @@
       <file leaf-file-name="IndexingService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/IndexingService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
+              <caret line="40" column="77" selection-start-line="40" selection-start-column="77" selection-end-line="40" selection-end-column="77" />
               <folding />
             </state>
           </provider>
@@ -77,18 +81,20 @@
       <file leaf-file-name="BetterCloudIndexException.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloudIndexException.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
-              <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+              <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#702#703#0" expanded="true" />
-                <element signature="e#740#741#0" expanded="true" />
-                <element signature="e#773#774#0" expanded="true" />
-                <element signature="e#808#809#0" expanded="true" />
-                <element signature="e#844#845#0" expanded="true" />
+                <element signature="e#772#773#0" expanded="true" />
+                <element signature="e#810#811#0" expanded="true" />
+                <element signature="e#843#844#0" expanded="true" />
                 <element signature="e#878#879#0" expanded="true" />
-                <element signature="e#912#913#0" expanded="true" />
-                <element signature="e#942#943#0" expanded="true" />
+                <element signature="e#914#915#0" expanded="true" />
+                <element signature="e#948#949#0" expanded="true" />
+                <element signature="e#982#983#0" expanded="true" />
+                <element signature="e#1012#1013#0" expanded="true" />
+                <element signature="e#1043#1044#0" expanded="true" />
+                <element signature="e#1071#1072#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -104,12 +110,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BetterCloud.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BetterCloud.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloud.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.222222" vertical-offset="1254" max-vertical-offset="4200">
-              <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.35213414" vertical-offset="804" max-vertical-offset="4215">
+              <caret line="69" column="61" selection-start-line="69" selection-start-column="61" selection-end-line="69" selection-end-column="61" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -129,8 +137,8 @@
       <file leaf-file-name="CassandraRowAssembler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="2130">
-              <caret line="44" column="24" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="645" max-vertical-offset="2130">
+              <caret line="73" column="22" selection-start-line="73" selection-start-column="22" selection-end-line="73" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -599,14 +607,14 @@
         <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/KafkaProducer.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/bettercloud/CassandraIndexTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RedisConnection.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloudIndexException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloud.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/IndexingService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/IndexEventSubscriber.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/CassandraIndex.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/IndexingService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloudIndexException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloud.java" />
       </list>
     </option>
   </component>
@@ -740,7 +748,7 @@
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="dynamic.classpath" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="cassandra&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/CassandraIndex.java&#10;index&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexingService.java&#10;row&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java&#10;be&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/BetterCloud.java&#10;cassandrain&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/test/java/com/bettercloud/CassandraIndexTest.java&#10;kafk&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/KafkaProducer.java&#10;indexin&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexingService.java&#10;indexen&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexEntryEvent.java&#10;inde&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexingService.java&#10;jediscl&#9;FILE&#9;jar:///Users/amit/.gradle/caches/modules-2/files-2.1/redis.clients/jedis/2.6.2/3577b067e9c27b831096446e67dff87feded4a1f/jedis-2.6.2-sources.jar!/redis/clients/jedis/JedisClusterCommand.java&#10;bett&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/BetterCloud.java&#10;b&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/BetterCloud.java&#10;cassandraro&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java&#10;cassa&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java&#10;kafka&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/KafkaProducer.java&#10;rowinde&#9;PSI&#9;JAVA://com.bettercloud.cassandra.RowIndexSupport&#10;jedisclustercomm&#9;FILE&#9;jar:///Users/amit/.gradle/caches/modules-2/files-2.1/redis.clients/jedis/2.6.2/3577b067e9c27b831096446e67dff87feded4a1f/jedis-2.6.2-sources.jar!/redis/clients/jedis/JedisClusterCommand.java&#10;redis&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/RedisConnection.java&#10;indexingser&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexingService.java&#10;better&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/BetterCloud.java&#10;Row&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java&#10;AtomicBTreeColumns&#9;FILE&#9;jar:///Users/amit/.gradle/caches/modules-2/files-2.1/org.apache.cassandra/cassandra-all/2.1.3/afdf93ba12e326738599da88172ee210fb951cbe/cassandra-all-2.1.3-sources.jar!/org/apache/cassandra/db/AtomicBTreeColumns.java&#10;StringSer&#9;PSI&#9;JAVA://org.codehaus.jackson.map.ser.std.StringSerializer&#10;atomicbtree&#9;PSI&#9;JAVA://org.apache.cassandra.db.AtomicBTreeColumns&#10;memta&#9;PSI&#9;JAVA://org.apache.cassandra.db.Memtable" />
+    <property name="SearchEverywhereHistoryKey" value="better&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/BetterCloud.java&#10;row&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java&#10;cass&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java&#10;cassandra&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/CassandraIndex.java&#10;index&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexingService.java&#10;be&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/BetterCloud.java&#10;cassandrain&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/test/java/com/bettercloud/CassandraIndexTest.java&#10;kafk&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/KafkaProducer.java&#10;indexin&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexingService.java&#10;indexen&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexEntryEvent.java&#10;inde&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexingService.java&#10;jediscl&#9;FILE&#9;jar:///Users/amit/.gradle/caches/modules-2/files-2.1/redis.clients/jedis/2.6.2/3577b067e9c27b831096446e67dff87feded4a1f/jedis-2.6.2-sources.jar!/redis/clients/jedis/JedisClusterCommand.java&#10;bett&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/BetterCloud.java&#10;b&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/BetterCloud.java&#10;cassandraro&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java&#10;cassa&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java&#10;kafka&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/KafkaProducer.java&#10;rowinde&#9;PSI&#9;JAVA://com.bettercloud.cassandra.RowIndexSupport&#10;jedisclustercomm&#9;FILE&#9;jar:///Users/amit/.gradle/caches/modules-2/files-2.1/redis.clients/jedis/2.6.2/3577b067e9c27b831096446e67dff87feded4a1f/jedis-2.6.2-sources.jar!/redis/clients/jedis/JedisClusterCommand.java&#10;redis&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/RedisConnection.java&#10;indexingser&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/IndexingService.java&#10;Row&#9;FILE&#9;file:///Users/amit/IdeaProjects/CassandraKafkaIndex/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java&#10;AtomicBTreeColumns&#9;FILE&#9;jar:///Users/amit/.gradle/caches/modules-2/files-2.1/org.apache.cassandra/cassandra-all/2.1.3/afdf93ba12e326738599da88172ee210fb951cbe/cassandra-all-2.1.3-sources.jar!/org/apache/cassandra/db/AtomicBTreeColumns.java&#10;StringSer&#9;PSI&#9;JAVA://org.codehaus.jackson.map.ser.std.StringSerializer&#10;atomicbtree&#9;PSI&#9;JAVA://org.apache.cassandra.db.AtomicBTreeColumns&#10;memta&#9;PSI&#9;JAVA://org.apache.cassandra.db.Memtable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -1181,7 +1189,13 @@
       <option name="project" value="LOCAL" />
       <updated>1433872718342</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Cassandra 2.1.3 Compatibility Changes">
+      <created>1433872929142</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1433872929142</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1203,7 +1217,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819074" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2453505" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2453505" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1216,6 +1230,35 @@
       <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819074" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2453505" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18526466" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23769338" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32630098" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -1248,22 +1291,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapdb/mapdb/1.0.6/11060bc9c7373d5b2dc29843055e372a13b3e919/mapdb-1.0.6-sources.jar!/org/mapdb/Serializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24158126" vertical-offset="0" max-vertical-offset="7950">
-          <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.cassandra/cassandra-all/2.1.3/afdf93ba12e326738599da88172ee210fb951cbe/cassandra-all-2.1.3-sources.jar!/org/apache/cassandra/db/ColumnSerializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33235726" vertical-offset="163" max-vertical-offset="2370">
-          <caret line="53" column="8" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.codehaus.jackson/jackson-mapper-asl/1.9.2/f033b16b4df1e2790b3027f59dcbac55fbf62585/jackson-mapper-asl-1.9.2-sources.jar!/org/codehaus/jackson/map/JsonSerializer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30746704" vertical-offset="0" max-vertical-offset="2055">
@@ -1403,14 +1430,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/redis.clients/jedis/2.6.2/3577b067e9c27b831096446e67dff87feded4a1f/jedis-2.6.2-sources.jar!/redis/clients/jedis/JedisCluster.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2635432" vertical-offset="0" max-vertical-offset="17475">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloudMBean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
@@ -1537,51 +1556,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RedisConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5330739" vertical-offset="71" max-vertical-offset="585">
-          <caret line="23" column="48" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#394#395#0" expanded="true" />
-            <element signature="e#448#449#0" expanded="true" />
-            <element signature="e#751#752#0" expanded="true" />
-            <element signature="e#791#792#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/bettercloud/CassandraIndexTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1462" max-vertical-offset="2145">
           <caret line="136" column="40" selection-start-line="136" selection-start-column="40" selection-end-line="136" selection-end-column="40" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="2130">
-          <caret line="44" column="24" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloudIndexException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
-          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#702#703#0" expanded="true" />
-            <element signature="e#740#741#0" expanded="true" />
-            <element signature="e#773#774#0" expanded="true" />
-            <element signature="e#808#809#0" expanded="true" />
-            <element signature="e#844#845#0" expanded="true" />
-            <element signature="e#878#879#0" expanded="true" />
-            <element signature="e#912#913#0" expanded="true" />
-            <element signature="e#942#943#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1605,22 +1584,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8243045" vertical-offset="2182" max-vertical-offset="2865">
           <caret line="216" column="6" selection-start-line="216" selection-start-column="6" selection-end-line="216" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/IndexingService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloud.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.222222" vertical-offset="1254" max-vertical-offset="4200">
-          <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1662,6 +1625,83 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.5" vertical-offset="0" max-vertical-offset="135">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/tools.jar!/com/sun/tools/javac/util/Warner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1317716" vertical-offset="0" max-vertical-offset="705">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/IndexingService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
+          <caret line="40" column="77" selection-start-line="40" selection-start-column="77" selection-end-line="40" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/CassandraRowAssembler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="645" max-vertical-offset="2130">
+          <caret line="73" column="22" selection-start-line="73" selection-start-column="22" selection-end-line="73" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloudIndexException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#772#773#0" expanded="true" />
+            <element signature="e#810#811#0" expanded="true" />
+            <element signature="e#843#844#0" expanded="true" />
+            <element signature="e#878#879#0" expanded="true" />
+            <element signature="e#914#915#0" expanded="true" />
+            <element signature="e#948#949#0" expanded="true" />
+            <element signature="e#982#983#0" expanded="true" />
+            <element signature="e#1012#1013#0" expanded="true" />
+            <element signature="e#1043#1044#0" expanded="true" />
+            <element signature="e#1071#1072#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.3333335" vertical-offset="954" max-vertical-offset="1650">
+          <caret line="75" column="38" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1290#1301#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RedisConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33259425" vertical-offset="15" max-vertical-offset="495">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+          <folding>
+            <element signature="e#394#395#0" expanded="true" />
+            <element signature="e#448#449#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/CassandraIndex.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="222" max-vertical-offset="1440">
@@ -1670,25 +1710,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/RowIndexSupport.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.cassandra/cassandra-all/2.1.3/afdf93ba12e326738599da88172ee210fb951cbe/cassandra-all-2.1.3-sources.jar!/org/apache/cassandra/gms/Gossiper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.592592" vertical-offset="326" max-vertical-offset="1350">
-          <caret line="48" column="15" selection-start-line="48" selection-start-column="15" selection-end-line="48" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.33259425" vertical-offset="2595" max-vertical-offset="19905">
+          <caret line="238" column="16" selection-start-line="238" selection-start-column="16" selection-end-line="238" selection-end-column="16" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#11102#11103#0" expanded="true" />
+            <element signature="e#11145#11146#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/redis.clients/jedis/2.6.2/3577b067e9c27b831096446e67dff87feded4a1f/jedis-2.6.2-sources.jar!/redis/clients/jedis/JedisCluster.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="653">
-          <caret line="0" column="10" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.14150943" vertical-offset="0" max-vertical-offset="17475">
+          <caret line="12" column="78" selection-start-line="12" selection-start-column="78" selection-end-line="12" selection-end-column="78" />
           <folding />
         </state>
       </provider>
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bettercloud/cassandra/BetterCloud.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35213414" vertical-offset="804" max-vertical-offset="4215">
+          <caret line="69" column="61" selection-start-line="69" selection-start-column="61" selection-end-line="69" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
   </component>
